@@ -22,7 +22,7 @@ PhoneGapアプリ用のAppmartアプリ内課金システムのプラグイン�
 
 ```shell
 cd /home/user/your_directory
-git clone https://github.com/info-appmart/appmartPhoneGapPlugin.git
+git clone https://github.com/info-appmart/appmart-inbilling-phonegap
 ```
 
 > Workspaceに追加 (eclipse)
@@ -90,11 +90,13 @@ class MyJavascriptInterface{
 			//決済ID
 			String transactionId;
 
+			/* エラー発生時呼び出し */
 			@Override
 			public void settlementError(int errorCode) {
 				Toast.makeText(mContext, "エラー発生：　errorCode: "+errorCode, Toast.LENGTH_LONG).show();					
 			}
 
+			/* 決済画面から戻ってきた時に呼び出し（決済はまだ未確定！）　*/
 			@Override
 			public void settlementWaitValidation(String transactionId) {
 				
@@ -108,6 +110,7 @@ class MyJavascriptInterface{
 				
 			}
 
+			/* 決済が確定された際に呼び出し */
 			@Override
 			public void settlementValidated(boolean result) {
 				if(result)
@@ -128,7 +131,7 @@ class MyJavascriptInterface{
 ```
 
 
-> htmlを変更
+> HTMLを変更
 
 
 ```html
