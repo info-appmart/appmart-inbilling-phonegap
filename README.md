@@ -112,7 +112,11 @@ public void onCreate(Bundle savedInstanceState){
     
 ```
 
-> 【開発情報】を書き換えてください！デベロッパーの管理画面をご確認ください。
+> 【開発情報】を書き換えてください。デベロッパー管理画面よりご確認いただけます。(サービス管理>検索>アプリ名)
+
+
+![Eclipse:appmart phoneGap](http://s21.postimg.org/h5xp3grw7/appmart_info.png "Eclipse:appmart phoneGap")
+
 
 #### Javaとの連動
 
