@@ -4,7 +4,7 @@
 
 ![license apache 2.0](http://img.shields.io/badge/license-apache%202.0-brightgreen.svg "licence apache 2.0")
 
-PhoneGapアプリ用のAppmartアプリ内課金システムのプラグインです。このサンプルをfork・cloneしていただき、自由にご利用ください。 
+AppmartのPhoneGap用のアプリ内課金システムのプラグインです。このサンプルをfork・cloneしていただき、自由にご利用ください。 
 
 このサンプルの対象サービスは:
 
@@ -12,37 +12,83 @@ PhoneGapアプリ用のAppmartアプリ内課金システムのプラグイン�
 
 ---
 
+## 目次
 
-## Ready-to-useサンプル
+```
+1- 導入手順
+
+	I- pluginを導入（project型）
+		- パーミッション設定
+		- サンプルをclone
+		- Workspaceに追加 (Eclipse)
+		- PhoneGapプロジェクトに導入（Eclipse）
+
+	II- プラグイン組み込み
+		- Activityクラスを変更
+		- Javaとの連動
+		- HTMLを変更
+
+2- リファレンス
+
+	I- エラーメッセージ
+
+```
 
 
-### プロジェクト設定 
 
-> サンプルをclone
+---
+
+
+## 導入手順
+
+
+### pluginを導入（project型）
+
+
+#### パーミッション設定
+
+```xml
+<!-- 課金API用 -->
+<uses-permission android:name="jp.app_mart.permissions.APPMART_BILLING" />
+```
+
+#### サンプルをclone
 
 ```shell
 cd /home/user/your_directory
 git clone https://github.com/info-appmart/appmart-inbilling-phonegap
 ```
 
-> Workspaceに追加 (eclipse)
-
-- File => Import => Existing Android Code Int Workspace
-- 先ほどcloneしたプロジェクトを選択
+> 注意点：　Eclipseにうまく読み込まれないために、workspace以外のフォルダーにcloneしてください。
 
 
-> PhoneGapプロジェクトに導入（eclipse）
+#### Workspaceに追加 (eclipse)
 
-PhoneGapプロジェクトに右クリック　=>　properties => Android　 ⇒　Libraries => Add => Pluginを選択
++ ⇒ File
++ ⇒ Import
++ ⇒ Existing Android Code Into Workspace
++ ⇒ 先ほどcloneしたプロジェクトを選択
+
+![Eclipse:appmart phoneGap](http://s14.postimg.org/5hbwc1t7l/phonegap_capture_2.png "Eclipse:appmart phoneGap")
+
+#### PhoneGapプロジェクトに導入（eclipse）
+
++ ⇒ PhoneGapプロジェクトに右クリック　
++ ⇒ Properties 
++ ⇒ Android
++ ⇒ Libraries  :  Add (Pluginを選択)
+
+![Eclipse:appmart phoneGap](http://s27.postimg.org/wza6sbrcj/phonegap_plugin.png "Eclipse:appmart phoneGap")
 
 ### プラグイン組み込み
 
-> Activityクラスを変更
+#### Activityクラスを変更
 
-###### Oncreate methodを更新
+> Oncreate methodを更新
+
 
 ```java
-
+//javascriptInterfaceオブジェクト
 private MyJavascriptInterface mc;
 	
 //開発者情報
@@ -56,7 +102,7 @@ public void onCreate(Bundle savedInstanceState){
 	
     super.onCreate(savedInstanceState);
 
-    //追記
+    //下記3行を追記
     super.init();
     mc = new MyJavascriptInterface(this);
     appView.addJavascriptInterface(mc, "appmart");
@@ -66,9 +112,13 @@ public void onCreate(Bundle savedInstanceState){
     
 ```
 
+> 【開発情報】を書き換えてください！デベロッパーの管理画面をご確認ください。
 
-###### JavascripInterfaceクラスを作成 (Activityクラス内に追加)
+#### Javaとの連動
 
+> Javaと連動するために、JavascriptInterfaceクラスを用意します。 
+
+> 内部クラスのため、**activityクラス内に定義してください**。　callbackオブジェクト経由で決済画面よりのデータを受け取ります。
 
 ```java
 class MyJavascriptInterface{
@@ -85,6 +135,7 @@ class MyJavascriptInterface{
 	@JavascriptInterface
 	public void doSettlement(String serviceId){
 		
+		//Callbackオブジェクト
 		AppmartResultInterface callback = new AppmartResultInterface(){
 			
 			//決済ID
@@ -130,8 +181,9 @@ class MyJavascriptInterface{
 }
 ```
 
+#### HTMLを変更
 
-> HTMLを変更
+> ボタンをクリックする際にjavascriptでMyJavascriptInterfaceのdoSettlement関数を呼び出します。
 
 
 ```html
@@ -159,17 +211,6 @@ class MyJavascriptInterface{
 <button id="first_button" onclick="do_settlement(this, 'your_service_id')" value="settlement">Settlement</button>
 
 ```
-
-
-
-> パーミッション設定
-
-```xml
-<!-- 課金API用 -->
-<uses-permission android:name="jp.app_mart.permissions.APPMART_BILLING" />
-```
-
-
 
 ##  リファレンス
 
